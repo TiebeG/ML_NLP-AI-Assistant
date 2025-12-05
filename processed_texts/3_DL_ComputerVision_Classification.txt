@@ -1,0 +1,601 @@
+1
+From nature to mathematics
+2
+Biological neuron				Mathematical equivalent
+Building a network
+3
+      Output of one neuron  inputs to other neurons
+Universal ApproximatorTheory versus Practice
+4
+Theory: 1 hidden (very wide) layer with non-linear activations is enough to solve any problem.
+
+Practice:
+Computationally very hard
+Does not generalize well to unseen data
+
+Enter deep learning = many hidden layers.
+
+Made feasible by GPUs and better techniques.
+
+Finding the optimal weights
+5
+Forward pass (calculate error w.r.t ground truth)
+Backwards pass (update weights to decrease error)
+
+
+
+
+Repeat until no 
+further improvement
+Problem 1: Local Minima (in loss landscape)
+6
+Forward pass (calculate error w.r.t ground truth)
+Backwards pass (calculate Dw that decreases error)
+
+
+
+Solution 1: vary batch size
+Solution 2: vary learning rate in an epoch – one cycle
+Solution 3: adaptive momentum 
+
+Repeat until no 
+further improvement
+Problem 2: Vanishing Gradients
+7
+Forward pass (calculate error w.r.t ground truth)
+Backwards pass (calculate Dw that decreases error)
+
+
+
+Solution: Use rectified linear activation function (RELU)
+
+...
+
+
+
+Repeat until no 
+further improvement
+Problem 3: Covariate Shift
+8
+Forward pass (calculate error w.r.t ground truth)
+Backwards pass (calculate Dw that decreases error)
+
+
+
+
+Repeat until no 
+further improvement
+Problem: Weights are updated under the assumption that prior layers output values with a given distribution, but these distributions also change during backprop!
+
+Solution: Batch (or Layer) normalization during forward prop. Subtract batch mean
+Divide by standard deviation
+Problem 4: Overfitting
+9
+Forward pass (calculate error w.r.t ground truth)
+Backwards pass (calculate Dw that decreases error)
+
+
+
+
+Repeat until no 
+further improvement
+Solution 1: Regularization with L2 regularization / weight decay (penalize large weights)
+Solution 2: Dropout regularization (randomly shut off neurons)
+Solution 3: Early stopping (use validation set)
+Solution 4: More data (data augmentation)
+Solution 5: Ensemble models
+
+10
+Machine Learning
+Computer Vision
+Classification
+Lesson Goals
+11
+Student understands the need for, and the use of, convolutions in Computer Vision
+
+Student can explain the general components and working principles of a convolutional neural network (CNN)
+
+Student can explain the principles of transfer learning, and apply them to a computer vision task
+
+Student can explain the major innovative concepts behind the base pre-trained CNN models
+
+Students understand common evaluation metrics for classification models, both for balanced datasets (ROC curve), and unbalanced datasets (PR curve)
+12
+Intro to CV:
+
+		
+
+			Movie
+
+Intro to Computer Vision
+13
+
+Understanding Vision – Where we came from
+15
+
+‘Classical’ Image processing & the rise of Computer Vision
+16
+Classical CV methods are based on hand-crafted features and heuristics:
+
+Techniques based on differences (in intensity) 
+Thresholding techniques
+Edge Detection techniques (Sobel, Canny, etc.)
+
+Techniques based on similarity 
+Region-based methods (region growing, watershed algorithms, etc.)
+Clustering methods (k-means, mean-shift, etc.)
+
+But…these techniques were flawed: problems with different lightning on images, noise on images, occlusion in images… 
+
+In essence: no semantic understanding!
+
+‘Classical’ Computer VisionThresholding - difference
+17
+(Otsu) Thresholding:
+
+Separating foreground from background, using one or more thresholds based on intensity (histograms)
+‘Classical’ Computer VisionEdge Detection - difference
+18
+Horizontal and Vertical Sobel Edge detectors		Canny Edge detectors
+‘Classical’ Computer VisionRegion based - similarity
+19
+Region Growing						Watershed algorithms
+‘Classical’ Computer VisionClustering - similarity
+20
+Clustering based on pixel features: color, texture, etc.
+
+K-means clustering						
+‘Classical’ Computer VisionClustering - similarity
+21
+Clustering based on pixel features: color, texture, etc.
+
+Mean-Shift Clustering: climb the highest ‘density’-peak, by defining a window around each pixel, and shifting the center to the mean of this window. Repeat.
+
+22
+
+‘Classical’ techniques struggle with real world data
+23
+
+Classical methods miss…
+24
+
+Enter… CNN networks!
+25
+Different level of CV applicationsWhat?  Where?
+26
+
+27
+Recap
+
+		
+
+			Convolutional
+			Neural
+			Networks
+			(CNN)
+
+For classification…
+
+
+Deep Learning + Images = Magic?
+28
++
+Challenges
+29
+Transforming image into 1-D tensor for feeding it into a fully connected neural network
+Problem: Parameter explosion
+Problem: Location-based information?
+
+Solution: Convolutional Neural Networks
+30
+
+MNIST VisualizationFCN:  https://adamharley.com/nn_vis/mlp/2d.htmlCNN: https://adamharley.com/nn_vis/cnn/2d.html
+31
+
+32
+Filtering (by convolutions)
+
+		
+
+			
+Convolution
+33
+Sliding window function, with a ‘kernel’ (filter), resulting in a ‘feature map’
+
+Convolution
+34
+
+Convolution Playgroundhttp://setosa.io/ev/image-kernels/
+35
+
+Sliding Window: Padding, Stride
+36
+Possible problems
+Image shrinks with every convolution
+Corner pixels get used less than center pixels
+Solution : play with padding & stride
+Usually: same pad, & stride of 1
+
+Convolution on an ‘RGB’ image
+37
+3 channels all at once, but still 2D-conv!
+Usually, kernels have same ‘depth’ as there are channels
+
+Convolution on an ‘RGB’ image3 channels all at once, but 2D-conv!
+38
+
+2D Conv – 3D Conv= sliding dimensions, not kernel dimensions
+39
+2D Conv
+
+
+
+
+
+
+
+3D Conv
+
+
+40
+Filtering (by learned convolutions) + task oriented
+
+		
+
+			
+Convolutional Neural Network (CNN)
+41
+
+1.
+2.
+3.
+
+1. Convolution layers‘Adding Dimensions’
+42
+Pulls apart the image into different dimensions, like a filter (kernel)
+
+Image of ‘n’ layers  kernel is ‘n’ layers, so it operates on all channels at once
+Applying ‘m’ different kernels to 1 image  ‘m’ new feature maps, that combine into a new ‘image’ of ‘m’ channels (‘m’ dimensions)
+1. Convolution layersReceptive Field (aggregations)
+43
+Receptive field starts locally, but aggregates to more global views (also with pooling techniques)
+
+
+
+
+
+
+
+
+
+
+
+
+				       Local view				  Global view
+
+Convolutional Neural Network (CNN)
+44
+
+1.
+2.
+3.
+
+2. Pooling layersReduce in size, aggregate, subsample
+45
+Pooling reduces the size of the image (not the number of channels, but the size)
+
+Zoom in on important parts
+Less parameters to keep track of, and calculate with
+2. Pooling layersMax Pooling vs Average Pooling
+46
+
+2. Pooling layersWhy are they useful?
+47
+
+Convolutional Neural Network (CNN)
+48
+
+1.
+2.
+3.
+
+3. Classification layersFlattening into 1-D + classify
+49
+Reduce all layers into 1 big flat vector + add universal approximator
+3. Classification layersFlattening versus Global Average Pooling (GAP)
+50
+With Flattening, we still need to learn which parts are important for the output neuron
+
++ can handle complex patterns
+- more calculations needed
+
+
+In GAP, we take a shortcut. When we do enough convolutions, the average of a feature map is a good predictor for the output neuron
+
++ simplification, faster
+- sometimes too simple
+Convolutional Neural Network (CNN)
+51
+
+52
+Transfer Learning
+
+		
+
+			
+Problem statement:
+53
+Deep neural network architectural design is still more of an art-form, and proves to be pretty challenging!
+
+And, it is also data hungry, and time consuming to train
+
+Enter: CV Benchmark Competition - Imagenet
+54
+
+Competition drives innovation
+55
+Big, deep CNN networks started to win the competition
+
+
+Yearly new innovations in CNN architecture
+
+
+Architectures + weights are open sourced
+Example of pre-trained network
+56
+
+Re-usable Model Body 
+57
+Transfer Learning: two modes
+58
+
+Base Models
+59
+Evolution to ‘Foundational Models’, even multi-modal models
+	i.e.: using different modes of knowledge 	input, to transform the information into 	multi-dimensional latent space
+
+60
+Pre-trained base models 
+Model zoo
+
+		
+
+			
+Evolution of CNN base modelsMore layers = more CNN power!
+61
+
+Compute Needs (by architecture)(BN = adding BatchNormalization layers)
+62
+
+0. LeNet (Yann LeCun) - 1998
+63
+One of the first CNN architectures, but not very deep
+Mainly for handwritten digit recognition (MNIST dataset)
+
+Foundation for the later CNN networks that compete in the imagenet competition
+1. Alexnet (Alex Krizhevsky, Geoffrey Hinton) - 2012
+64
+The one that started it all!
+Innovation: Deep CNN (8 layers) with ReLU’s and Dropout
+2. VGG (visual geometry group @Oxford) - 2014
+65
+Innovation: 
+Lots of small kernels / filters outperforms one single big one
+Less parameters are needed for smaller kernels, so we can have more layers = deeper network!
+Smaller kernels capture more details
+66
+VGG Family (variations)
+Identity Conv: 1x1 conv
+67
+1x1 conv can be used as a ‘bottleneck’ layer, to ‘squeeze’ knowledge, and non-linearity
+Mostly used as a trick to adjust number of channels in a computational efficient way (dimensionality reduction)
+1x1 conv = computational ‘trick’
+68
+
+3. Inception – GoogLeNet - 2014
+69
+Innovation: 
+Inception modules combine small & large kernels (with the 1x1 conv trick)  not only go deep, but also wide!
+Small kernels: focus on details, more local patterns
+Large kernels: focus on more broad stroke patterns, global patterns
+Module = combine them
+
+Inception module(optimized via 1x1 bottleneck)
+70
+
+4. ResNet (the go-to option!)						- 2015
+71
+Innovation: 
+Skip connections (shortcuts)
+Residual learning forces the model to learn the ‘rest’, what other the other layers didn’t (the details)
+Skip connections create shortcuts for easier backpropagation of the gradient, so we can go deeper (more layers)
+Side by side comparison
+72
+
+5. DenseNet - 2016(skip-connections overkill?)
+73
+
+But…CNNs are localized…
+74
+Convolution uses local window (receptive field), and thus lacks global understanding
+
+
+Enter: Transformers with the attention mechanism!
+
+
+		Convolution: local view	         Attention: global view
+6. ViT (Vision Transformer)
+75
+Transformer architecture = different Neural Network architecture
+
+
+See NLP part of the course
+76
+Going Practical…
+
+		
+
+			
+Hugging Face: Open-source models
+77
+
+Advanced Settings / Tweaksfastai Finetune: Fit One Cycle - Unfreeze
+78
+
+Advanced Settings / TweaksLR finder
+79
+            Frozen Base model				  Unfrozen Base Model
+Advanced Settings / TweaksDiscriminative Learning rates - Slice
+80
+Advanced Settings / TweaksFP-16 Mixed Precision
+81
+CV models are now better than humans…
+82
+
+Looking ahead…Object Detection: Yolo CNN backbone
+83
+
+But…even Yolo can make mistakes
+84
+
+85
+Power of CNNs, 
+used differently
+
+		
+
+			
+Sound as image (spectogram)
+86
+
+Mouse movements & clicksHuman? Fraude detection
+87
+
+Code as imageDetect malware
+88
+
+89
+The Godfathers of AI
+
+		
+
+			
+The Godfathers of AIWinners of the Turing Award 2018
+90
+Yann LeCun (LeNet)
+
+Geoffrey Hinton (AlexNet)
+
+Yoshua Bengio (Attention mechanism) 
+91
+(Common) Model Evaluation Metrics
+Not the focus of this part of the course(check Cloud AI)
+92
+
+93
+
+
+94
+
+Evaluating Classification ModelsSummary
+95
+Unbalanced dataset
+Use the PR curve
+Focuses on the positive class, which might be rare in the dataset
+Single metric: F1-score
+Single ‘area’ metric: AUC-PR, or AP
+
+Balanced dataset
+Use the ROC curve
+Provides a broad and balanced performance overview, comparing True Positive Rate versus False Positive Rate 
+Single ‘area’ metric: AUC-ROC
+
+
+Unbalanced Dataset
+96
+Evaluating Classification ModelsPrecision & Recall
+97
+Confusion Matrix, because accuracy is too limited
+
+Precision (positive predictive value): describes how well a model predicts the positive class. Priority on ‘correctness’.
+
+Recall (sensitivity) tells you if your model made the right predictions when it should have. Priority on ‘completeness’.
+
+
+Classification Threshold
+98
+But… Classification model always predicts a probability
+True sample: 		when > 0,5 probability
+Negative sample:  	when < 0,5 probability
+
+When we change this threshold, our TP / FP / TN / FN values change!
+
+When we put the threshold on 0,8, we’ll have less cases we predict as positive, and more cases we predict as negative…
+Precision – Recall Trade-off
+99
+Precision prioritizes “correctness” but may not account for the cost of missing positive cases. 
+
+Recall emphasizes “completeness” but may result in falsely flagging some instances. 
+
+Both types of errors can be expensive, depending on the specific use case.
+
+Higher threshold  our precision will be better, but our recall might be worse.
+Lower threshold   our recall might be better, but our precision might be worse.
+Precision – Recall Trade-off
+100
+
+Precision – Recall Curve
+101
+Plotting the Precision-Recall values at different thresholds  Precision-Recall Curve! 
+
+With this curve, we can:
+Identify the optimal threshold that balances precision and recall for our use case
+Understand how changes in the threshold affect the model’s performance.
+Compare the performance of different models or configurations.
+EXAMEN
+
+Precision – Recall Curve
+102
+Capture PR Curve into one single metric
+103
+Different ‘aggregate’ ways to summarize the info of the PR curve into one number
+
+F1 Score
+Represents a single point on the precision-recall curve, balancing precision and recall at a specific threshold.
+PR-AUC (Area Under the Curve): 
+Measures the entire area under the PR curve, using all points to evaluate the model’s overall ability to distinguish between classes.
+Integrates the area under the curve = exact area measurement
+Average Precision (AP): 
+Averages precision across several recall levels and averages them, using step function.
+Estimate of the area under the curve
+
+
+EXAMEN
+104
+
+Balanced Dataset
+Trade-off between TPR and FPR
+105
+
+ROC Curve
+106
+
+
+107
+
+Evaluating Classification ModelsSummary
+108
+Unbalanced dataset
+Use the PR curve
+Focuses on the positive class, which might be rare in the dataset
+Single metric: F1-score
+Single ‘area’ metric: AUC-PR, or AP
+
+Balanced dataset
+Use the ROC curve
+Provides a broad and balanced performance overview, comparing True Positive Rate versus False Positive Rate 
+Single ‘area’ metric: AUC-ROC
+
+
+Over to you
+109

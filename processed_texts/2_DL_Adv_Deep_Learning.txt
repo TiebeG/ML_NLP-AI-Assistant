@@ -1,0 +1,336 @@
+1
+Last Lesson:
+Data Realm
+5 V’s of Big Data
+2
+Horizontal (Out) – Vertical (Up) Scaling
+3
+
+Distributed Resources: ‘Manager’ neededReverse Proxy
+4
+Evolution of Application Architectures 
+5
+
+Evolution of Data Architectures
+6
+Hadoop and Spark 
+
+On-prem or cloud, open-source, large-scale data processing and analytics.
+
+
+Google BigQuery, Snowflake, and AWS Redshift
+
+Ideal for cloud-based data warehousing and high-performance analytics
+
+
+
+Microsoft Fabric and AWS Lake Formation
+
+Comprehensive platforms for end-to-end data management and analytics.
+
+Trustworthy AI & Ethics
+7
+
+8
+Machine Learning
+Advanced Deep Learning
+Lesson Goals
+9
+Students can explain the general components and working principles of a neural network
+
+Students gain a deeper understanding of the DL learning process, by grasping
+The role of the learning rate and activation functions
+The difficulties of complex loss landscapes, and how to mitigates them
+The role of regularization techniques (early stopping, weight decay, dropout, ensemble models, data augmentation, batch normalization)
+
+Students can explain the purpose, and core architecture, of several different major neural network types
+
+10
+Neural Networks
+AI > ML > DL
+11
+
+Deep Learning better with Big Data
+12
+
+Machine Learning = Data Driven
+13
+
+(High Level) ML Pipeline versus DL Pipeline
+14
+
+15
+
+Latent Space
+16
+Latent: 
+	something hidden. Present, but not directly observable.
+
+Latent space: 
+	compressed encoding (representation) of data in multi-dimensional 	space
+Encoding / Decoding
+17
+Encoding:
+	Learn how to compress data to most important latent features
+
+Decoding:
+	Learn how to decompress (or generate) from latent features to 	output data
+Difference ML versus DL
+18
+
+What made Deep Learning feasible?
+19
+
+Why Fastai / Pytorch
+20
+
+Neuron / (Linear) Perceptron
+21
+Tensor Calculations
+22
+
+Activation Functions: adding non-linearity
+23
+
+
+Activation Function: Active Region
+24
+
+Naïve, Fully Connected (FCN), Dense, Feedforward Network, aka Multi-Layer Perceptron
+25
+
+Universal Approximator(one hidden layer is theoretically enough)
+26
+Theory: 1 hidden (very wide) layer with non-linear activations is enough to solve any problem.
+
+Practice:
+Computationally very hard
+Does not generalize well to unseen data
+
+Enter deep learning = many hidden layers.
+Made feasible by GPUs and better techniques.
+
+Layers of a Deep Learning Network
+27
+
+Learning Cycle
+28
+
+
+
+
+Step1 Forward Pass
+Step2 Loss Function
+Step3 Optimize weights
+Step4 Back-propagate
+Epoch – Batch - Iteration
+29
+
+Underfit – Overfit: use of validation set
+30
+
+After training: inference (predict)
+31
+
+32
+Advanced Topics
+33
+Data Preprocessing
+Data Preprocessing
+34
+
+Normalize - Standardize
+35
+
+36
+Forward Pass & Loss calculation & Backward pass
+Loss calculation
+37
+
+Backwards Pass
+38
+
+Update Weights (simplification)
+39
+
+Learning Rate
+40
+
+41
+Challenge
+
+Local Minima
+
+‘I’m stuck!’
+Getting Stuck in Local Minima(of the loss function)
+42
+
+Loss Landscapes: theory versus reality
+43
+Local Minima & Saddle Points
+44
+
+Solution 1:Randomness by Batch Size
+45
+
+Solution 2:Randomness by Learning Rate
+46
+Annealing Cycling LR
+
+			One Cycle 
+One Cycle Learning Rate Scheme
+47
+
+Solution 3:Momentum Optimizer (adam)
+48
+
+49
+Challenge
+
+		
+
+			Vanishing Gradients
+
+Vanishing Gradient
+50
+
+Solution:Use ReLu activations
+51
+
+Variants: Leaky ReLU, ELU, …
+52
+Fixing the ‘dying’ ReLU: stuck in negative side, always outputting zero
+53
+Challenge
+
+
+			Co-variate shift
+
+Internal Covariate Shift
+54
+
+Solution:Batch Normalization
+55
+
+56
+Challenge
+
+
+
+			Overfitting
+
+General Solution:Regularize the training process 
+57
+Regularization 1: L2 regularization(L2: using squares to get rid of the sign)
+58
+
+Regularization 2: Early Stopping
+59
+
+Regularization 3: Dropout
+60
+
+Regularization 3: Ensemble Methods
+61
+
+Regularization 3: Data Augmentation
+62
+
+Data Augmentation: even multiclass
+63
+
+Python Library: Albumentations.ai
+64
+
+65
+Common Neural Network Architectures
+
+‘Neural Network Zoo’
+Convolutional Neural Network (CNN)
+66
+Purpose:
+Designed for spatial data (images). CNNs excel at capturing local patterns like edges, textures, and shapes.
+
+Architecture:
+Composed of layers like:
+Convolutional layers (feature extraction)
+Pooling layers (downsampling)
+Fully connected layers (classification) Often ends with a softmax or sigmoid layer for prediction.
+
+Output:
+a class label or probability distribution over classes (e.g., cat vs. dog), or a feature map if used in intermediate stages.
+
+(Denoising / Variational) Auto-encoder 
+67
+Purpose: 
+
+Learns to compress and reconstruct data. It consists of:
+Encoder: Compresses input into a latent representation.
+Decoder: Reconstructs the input from the latent representation.
+
+Architecture: 
+
+Built using fully connected layers, convolutional layers, or a mix. 
+
+Output: 
+
+Typically reconstructs the entire input, not a per-pixel classification.
+
+Fully Convolutional Network (FCN)
+68
+Purpose: 
+
+Designed for dense prediction tasks like semantic segmentation.
+
+Architecture: 
+
+Uses only convolutional layers (no fully connected layers), often with upsampling to maintain spatial resolution.
+
+Output: 
+
+Produces a spatial map of predictions (e.g., class labels for each pixel).
+
+RNN / LSTM(Recurrent Neural Network / Long Short-Term Memory)
+69
+Purpose:
+Designed for sequential data like text, time series, or speech. LSTMs improve upon vanilla RNNs by handling long-term dependencies better.
+
+Architecture:
+RNNs: Have loops allowing information to persist across time steps.
+LSTMs: Include gates (input, forget, output) to control the flow of information. Can be stacked or bidirectional for more power.
+
+Output:
+A sequence of predictions (e.g., next word in a sentence)
+Or a single prediction after processing the entire sequence (e.g., sentiment classification)
+
+Transformer (!)
+70
+Purpose:
+Built for sequence modeling without recurrence. Transformers excel at capturing global dependencies using attention mechanisms.
+
+Architecture:
+Self-attention layers to weigh relationships between all tokens
+Positional encoding to retain order
+Encoder-decoder structure in models like BERT (encoder-only) or GPT (decoder-only)
+
+Output:
+Can be a sequence (e.g., translated sentence)
+Or a single value (e.g., classification score)
+Extremely flexible: used in NLP, vision (ViT), audio, and more
+
+Generative Adversarial Network (GAN)
+71
+Purpose:
+Designed for generative tasks — creating realistic data (images, audio, etc.) from noise or latent representations.
+
+Architecture:
+Generator: Learns to produce realistic data
+Discriminator: Learns to distinguish real from fake
+Trained in a min-max game where both networks improve iteratively
+
+Output:
+Synthetic data (e.g., images, videos, music)
+Often indistinguishable from real data when trained well
+
+Over to you
+72

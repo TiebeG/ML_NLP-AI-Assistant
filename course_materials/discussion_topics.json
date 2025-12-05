@@ -1,0 +1,58 @@
+[
+    {
+        "id": "1.1",
+        "question": "Explain, with a clear example for each, the 5 V\u2019s of Big Data"
+    },
+    {
+        "id": "1.2",
+        "question": "When dealing with Big Data, one has to make architectural design decisions: briefly explain in this context the principles of horizontal versus vertical scaling of databases, sharding and replication, and the CAP theorem"
+    },
+    {
+        "id": "1.3",
+        "question": "Explain the concept of a Data Lake, versus a Data Warehouse. Make the distinction between on-prem versus cloud solutions. What is a Data Lake House, and a Data Mesh?"
+    },
+    {
+        "id": "1.4",
+        "question": "Where do the concepts of Hadoop, Spark, Qlik (BI), BigQuery (Data Analytics), and TensorFlow/PyTorch (Data Modeling) fit in when looking at the concepts of data lake / data warehouse?"
+    },
+    {
+        "id": "1.5",
+        "question": "Can you explain the (buzzword) concept of Data Governance in the context of Data Lakes? Can you link it to the Veracity part of Big Data (5V\u2019s of Big Data)? And to the concept of a Data Swamp?"
+    },
+    {
+        "id": "1.6",
+        "question": "With the rapid and explosive growth of AI, the principles of Trustworthy and Ethical AI have become major concerns. Can you explain what the principles of human in-, on-, or out the loop mean in this context?"
+    },
+    {
+        "id": "1.7",
+        "question": "One of the cornerstones of Trustworthy AI, is explainability (XAI). Discuss what this concept of XAI embodies, and why it might be considered a challenge when dealing with deep learning"
+    },
+    {
+        "id": "1.8",
+        "question": "Explain the concepts of \u201cGreen AI\u201d versus \u201cRed AI\u201d (efficiency vs. accuracy), and describe how techniques such as knowledge distillation (teacher\u2013student networks) and Mixture of Experts aim to reduce energy consumption and carbon emissions while maintaining model performance."
+    },
+    {
+        "id": "2.1",
+        "question": "A multilayer perceptron is considered an universal approximator. Explain this concept by explaining the 2 main parts of a neuron (the affine transformation, and the activation). How do tensors, and the power of GPU\u2019s, fit in this picture?"
+    },
+    {
+        "id": "2.2",
+        "question": "Explain how a neural network learns from labeled data (use these terms: forward pass, error/loss function, gradient descent, learning rate, backpropagation)"
+    },
+    {
+        "id": "2.3",
+        "question": "When optimizing our weights in a neural network, we try to find the minimum of the loss function, but we often get stuck in local minima. Discuss different ways to deal with this problem"
+    },
+    {
+        "id": "2.4",
+        "question": "We use the chaining rule to let the gradient of the loss function propagate backwards from the last layers to the first. In doing so, we encounter the problems of vanishing gradients and covariance shift. Briefly discuss these problems, and how we could fix these"
+    },
+    {
+        "id": "2.5",
+        "question": "Deep Neural Networks are extremely flexible and can adapt to any kind of problem. So flexible, that we always run a major risk of overfitting. That\u2019s why we use regularization techniques: we want to keep our extreme flexibility, but we want to keep overfitting in check. Discuss different regularization techniques."
+    },
+    {
+        "id": "2.6",
+        "question": "Explain how Convolutional Neural Networks (CNNs), Autoencoders (AE), Fully Connected Networks (FCNs), Recurrent Neural Networks (RNNs), Transformers, and Generative Adversarial Networks (GANs) differ in their design and intended use cases. How does the architecture of each network type influence the kind of data it handles best and the nature of its output? Provide examples of real-world applications for these architectures."
+    }
+]

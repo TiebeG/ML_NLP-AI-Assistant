@@ -1,0 +1,651 @@
+1
+Why Conv-nets for images? 
+2
+Fully connected layers won’t work well because of:
+
+Parameter explosion: billions of weights necessary
+No sense of location-based information in images
+Solution: Convolute, Pool, Classify
+3
+Transfer Learning
+4
+Base Models & Innovations
+5
+
+But…CNNs are localized…Enter: ViT!
+6
+Convolution uses local window (receptive field), and thus lacks global understanding
+
+
+Enter: Transformers with the attention mechanism!
+
+
+Convolution: local view  Attention: global view 			 ViT!
+
+7
+
+Evaluating Classification ModelsSummary
+8
+Unbalanced dataset
+Use the PR curve
+Focuses on the positive class, which might be rare in the dataset
+Single metric: F1-score (balance point between P and R)
+Single ‘area’ metric: AUC-PR, or AP
+
+Balanced dataset
+Use the ROC curve
+Provides a broad and balanced performance overview, comparing True Positive Rate versus False Positive Rate 
+Single ‘area’ metric: AUC-ROC
+
+
+9
+Machine Learning
+Computer Vision
+Object Detection & Segmentation
+
+
+
+Lesson Goals
+10
+(Students will be able to explain historical methods of object detection, such as naïve template matching, HOG features, and SIFT, and identify the limitations of those methods.)
+
+Students will comprehend modern object detection approaches that use CNNs for feature extraction and understand the roles of regression and classification heads in these networks.
+
+Students will be able to discuss the challenges of aspect ratio, scale and occlusion in object detection and explain how Regions-Of-Interest (ROI) identification and Non-Maximum Suppression (NMS) help address these issues.
+
+Students will understand the differences between two-stage detectors (e.g.,  R-CNN family) and one-stage detectors (e.g., YOLO).
+
+Students will be able to use metrics such as Intersection-over-Union (IoU) and mean Average Precision (mAP) to evaluate the performance of object detection models.
+
+Students will be able to distinguish between object detection and semantic/instance segmentation, recognizing that segmentation requires pixel-level classification and the generation of spatially precise masks using techniques such as upsampling and deconvolution.
+Common CV tasks
+11
+
+Object Detection – Task definition
+12
+First, detect possible objects in image (localize by bounding box), next classify them. Eventually: do it for multiple objects.
+General idea: Object DetectionExample with two object classes (& background)
+13
+
+Background
+Object 2
+Object 1
+14
+Traditional Computer
+Vision way
+
+		
+
+No Deep Learning (yet)
+
+Naïve: Template matchingSliding Window + correlation calculation
+15
+
+
+Issues of naïve template matching
+16
+Naïve pattern matching by using a pattern, has a couple of issues:
+
+Occlusions issues
+Pose / orientation issues
+
+In general:
+
+Scale and aspect ratio issues 		   	 go for pyramid approach
+Pattern is too specific, not general enough	 go for feature extraction
+
+
+
+?
+?
+?
+?
+Scale & Ratio Challenge + compute of Sliding Windows
+17
+Scale and Aspect Ratio: 
+
+Handling objects of different scales and aspect ratios was challenging.
+
+Computationally Expensive: 
+
+Scanning the entire image with multiple windows of different sizes and aspect ratios is very slow.
+
+Pyramid Approach
+18
+To address the issue of scale, the pyramid approach was introduced:
+
+ Image Pyramid: image was resized to multiple scales, creating a pyramid of images.
+
+ Sliding Window on Each Scale (Octave): sliding window technique was applied to each level of the pyramid.
+
+ Combining Results: results from different scales were combined to detect objects of various sizes.
+
+This approach helped in detecting objects at different scales but was still computationally intensive.
+
+Next: Feature extraction + classificationSliding Window of Fixed Size
+19
+Exact pattern was too specific  need for general feature extraction and matching, instead of correlation
+
+ Fixed-Size Windows: scan using different fixed-size windows
+
+ Feature Extraction: get feature vector of each window, by hardcoded features, or by using calculated features, like HOG (Histogram of Oriented Gradients) or SIFT
+
+ Classification: classify each window vector, and use probability score to detect possible objects
+
+Feature extraction 
+20
+‘Hard-coded’ features, like Haar features (Viola-Jones detector)
+
+
+
+
+
+
+
+
+
+
+Calculated features, like HOG or SIFT
+Histogram of Oriented Gradients (HOG)
+21
+Feature engineering technique on images (pre-CNN)
+Based on horizontal and vertical Sobel Edge Detectors
+
+
+
+
+Calculate HOG features on the sliding windows  send to classification model (like SVM). Gradients provide shape information.
+
+22
+  HOG Feature Engineering
+Turn each window / image  vector
+SIFT – David Lowe 1999(Scale-Invariant Feature Transform)
+23
+
+SIFT Feature Engineering(Scale-Invariant Feature Transform)
+24
+SIFT = Enhancement over HOG features, which vectorizes entire image
+
+Key idea:
+Identify keypoints in image (independent of scale, translation, rotation)
+Vectorize small patch around the keypoints via HOG, and combine
+
+Unlike HOG, which processes the entire image patch, SIFT extracts features only from the keypoints, making it more robust to changes in scale and rotation.
+
+
+SIFT Keypoints
+25
+Detect extrema points as candidates for keypoints
+
+Use Image Pyramid (Octaves)
+
+	By resizing the image to create a pyramid of images at different scales, we achieve scale invariance. This allows the detection of 	keypoints that remain stable regardless of the image size.
+
+Subtract different Levels of Gaussian Blur
+
+	Apply Gaussian blur at various levels, then subtract two consecutive levels to create Difference of Gaussians (DoG) images. 
+	Identify extrema (max or min) candidates in these DoG images, as these points represent where the gradient changes the most.
+
+
+Image Segmentation & ROI (Region of Interest)
+26
+Felzenszwalb & Huttenlocher (2004): Graph based approach to images
+
+Each pixel is a node, and the edges get a weight based on the dissimilarity between the 2 pixels
+‘Cluster’ pixels together which have small internal difference, to form segments
+Foundational technique for segmentation, but also to select Regions of Interest (ROI)
+27
+New Insights
+
+		
+
+
+
+
+Go for Deep Learning!
+
+Use CNN as feature extractor!
+
+Convolutional Neural Networkas Feature Extractor (learned by data)
+28
+Convolutional Neural Network:
+
+Sliding window technique!
+Learns features by data samples, no manual feature extraction!
+Enter…Multi-headedNetworks!
+29
+(Two headed) Object DetectorLocalize & classify
+30
+Each object detector has to
+Localize the object – predict bounding box coordinates (regression)
+Classify the object in the bounding box (or predict as background)
+
+
+
+
+L2 Loss ((R)MSE)
+Softmax / Crossentropy Loss
+Feature extractor
+Flatten
+Fully Connected
+(Two-headed) Object DetectorLocalize & Classify
+31
+
+Challenges for sliding window object detectors
+32
+Lots of compute needed to test out multiple sizes and aspect ratios of sliding windows
+Solution: restrict search space to ROI’s
+
+Unknown number of objects in the image (neural network has a static number of outputs)
+Solution: predict many potential bounding boxes (class-agnostic), and then refine them by classification & using non-max suppression
+
+
+
+Class-Agnostic Object Detection
+33
+Class-aware object detection
+	recognize and classify specific objects of predefined categories (cars, 	cats, dogs, etc)
+
+Class-agnostic detection 
+	detects all possible objects in an image, even those not recognized from 	training data. A ‘generic’ object detector
+
+	 focuses on the presence and location of objects, not the category
+	 easily scalable to detect new categories of images, without requiring			extensive labelled data for each new category
+Non-max suppression (NMS)Do we want all possible boxes?
+34
+Non-Max Suppression:
+A post-processing technique used in object detection to eliminate duplicate detections (using IoU), and select the most relevant detected object  only keep the best bounding box
+Metric: IoU (Intersection of Union)(IoU = Jaccard Index)
+35
+Non-Max Suppression Algorithm (NMS)
+36
+General idea:
+Select the bounding box with maximum confidence, and suppress all other boxes that overlap with this maximum box, with an overlap bigger than a threshold (IoU)
+
+
+Let’s see an example: 
+
+Non-Max Suppression Algorithm (NMS)in action
+37
+Step1: Sort all bounding boxes, based on confidence level
+Step2: Select box with highest confidence
+Step3: Calculate IoU overlap with all other boxes
+Step4: Remove all boxes that overlap more than a predefined threshold
+Step5: Repeat 
+Non-Max Suppression Algorithm (NMS)in action
+38
+Box4 will be removed, because it overlaps too much with box1 (with this threshold setting)
+
+Box8 will be kept, because it overlaps less then the threshold
+Result of the NMS
+39
+
+
+Non-Max Suppression - Recap
+40
+
+Non-Max Suppression is not perfect!Difficulties with NMS-thresholding
+41
+Setting the ‘correct’ NMS threshold (IoU) is tricky…
+
+Set it too high, and you miss occluded objects. Too low, and you might detect the same object multiple times
+42
+Two-stage detectors
+
+		
+
+
+
+
+
+Object Detector - Main approaches
+43
+
+
+
+ROI + Refine
+Do it all in one shot
+It started with two-stage detectors
+44
+
+
+45
+
+Region-based CNN (R-CNN) R. Girshick 2013
+46
+Instead of HOG features 	 use a CNN to classify object! 
+Instead of SIFT key points 	 use segmentation to identify possible 										object regions!
+
+R-CNN: Selective Search (identify possible object regions):
+Initial sub segmentation
+Greedy algorithm to combine similar sets of regions, repeat
+Use final segmented region proposals to generate candidate object locations 2k!
+				
+R-CNN Overview
+47
+Classification Challenge: 
+Selective Search produces 2,000 region proposals, that have to go through the CNN 				 bottleneck in 2013, so leave the classification to separate SVM
+
+Localization Challenge:
+Region proposals are not very accurate bounding boxes, so a separate Dense layer was added and trained on bounding box coordinates from true labels to refine them (bounding box regression) 
+
+Uses SVM
+R-CNN Bounding Box Regressor
+48
+Training R-CNN
+49
+ Ground Truth Labels
+	You provide the ground truth bounding boxes and labels for each object in your training images.
+
+ Region Proposals
+	Selective search generates a set of region proposals for each image.
+
+ IoU Calculation
+	The algorithm calculates the Intersection over Union (IoU) between each region proposal and the 	ground truth bounding boxes.
+
+ Classification of Samples:
+Positive Samples: 
+Region proposals with an IoU above a certain threshold (e.g., 0.5) with any ground truth box are considered positive samples. 
+These are used to train the model to recognize your objects.
+
+Negative Samples: 
+Region proposals with an IoU below a lower threshold (e.g., 0.3) with all ground truth boxes are considered negative samples. 
+These are used to train the model to recognize background or non-object regions.
+
+Both positive and negative samples are used during training. Negative samples are crucial as they help the model learn to distinguish between objects and background, reducing false positives
+R-CNN Evolution: Fast R-CNN, Faster R-CNN
+50
+Each evolution brought a more efficient region proposal algorithm, enhancing both speed and accuracy
+
+Difference: how to apply the CNN!
+
+Anchor Boxes
+Faster R-CNNAnchor Boxes & ROI Pooling
+51
+Anchor boxes
+ROI pooling:
+
+Only select top scoring ROI’s
+Does anchor contain object or not?
+Warping to standard size
+Anchor Box (Faster R-CNN, Yolo)
+52
+CNN network proposes regions of interests (ROI’s)
+Use Anchor Boxes (reference boxes) of predetermined size and aspect ratio to best match the proposed ROI (using IoU)
+Deals with the size and aspect ratio issue of object detection
+More efficient training, no need to dynamically adjust bounding box
+Anchor Box Regression
+53
+R-CNN Evolution
+54
+
+Benefits of two-stage detectors
+55
+?
+56
+One-stage detectors
+
+		
+
+
+
+
+
+Object Detector - Main approaches
+57
+
+
+
+ROI + Refine
+Do it all in one shot
+
+58
+
+YOLO: You Only Look OnceThe most famous object detector!
+59
+Divide the image into a grid, typically 13x13 or 16x16 cells (or finer grids)
+Each cell is responsible for predicting a fixed set of bounding / anchor boxes and their confidence scores (using the power of CNN)
+Non-maximum suppression (NMS) is used to handle multiple detections of same object
+
+60
+
+Here 4x4 grid (usually 13x13), each grid predicts bounding box (7 numbers, if you have 2 classes of objects)
+
+61
+
+Use of NMS to handle multiple boxes that cover the same object
+62
+
+Use of 9 Anchor boxes to handle multiple scales/ratio & multiple objects
+63
+Each cell predicts 9 different anchor boxes, so they can focus on multiple scales/ratios & theoretically detect 9 different objects
+Example with 2: 
+Yolo: Putting it all together
+64
+
+Challenge for one-stage detectorsImbalance foreground-background
+65
+Two-stage detectors: 
+Use ROI’s to pinpoint where to look (interesting foreground regions)
+Accurate & great for small objects, but slow
+
+One-stage detectors: 
+Look everywhere, all at once, but there are many background anchors, and only a few foreground anchors!
+Fast (real-time), but less accurate, especially for small objects
+
+66
+Object Detection
+Model Evaluation
+
+		
+
+
+
+
+
+Model EvaluationHow good is this model?
+67
+
+Evaluating Classification ModelsPrecision & Recall
+68
+Confusion Matrix, because accuracy is too limited
+
+Precision (positive predictive value): describes how well a model predicts the positive class. Priority on ‘correctness’.
+
+Recall (sensitivity) tells you if your model made the right predictions when it should have. Priority on ‘completeness’.
+
+
+Precision – Recall Curve
+69
+Plotting the Precision-Recall values at different probability thresholds 
+	 Precision-Recall Curve! 
+With this curve, we can:
+Identify the optimal threshold that balances precision and recall for our use case
+Understand how changes in the threshold affect the model’s performance.
+Compare the performance of different models or configurations.
+Capture PR Curve into one single metric
+70
+Different ‘aggregate’ ways to summarize the info of the PR curve into one number
+
+F1 Score
+Represents a single point on the precision-recall curve, balancing precision and recall at a specific threshold.
+PR-AUC (Area Under the Curve): 
+Measures the entire area under the PR curve, using all points to evaluate the model’s overall ability to distinguish between classes.
+Integrates the area under the curve = exact area measurement
+Average Precision (AP): 
+Averages precision across several recall levels and averages them, using step function.
+Estimate of the area under the curve
+
+mAP = combining AP + IoU(and/or, averaging over multiple object classes)
+71
+On one hand: 	Average Precision (AP) thresholding
+
+Balancing Precision versus Recall, using different probability thresholds
+
+
+
+On the other hand: 	Intersection-Over-Union (IoU) thresholding
+
+Different IoU thresholds will determine if a predicted bounding box is considered a true positive, or not (based on the overlap with the ground truth)
+‘Spatial Accuracy’
+
+
+
+Combining both thresholds into one: 
+
+		enter Mean Average Precision (mAP50-95)
+
+
+Overview: mAP50 vs mAP50-95
+72
+
+Metric: mAP (mean Average Precision)Evaluation of model performance
+73
+mAP is based on different levels of IoU, combined with AP!
+
+Different IoU thresholds will produce different scores for confusion matrix, because they define what’s positive or what’s negative
+
+True Positive (TP): 	object predicted, covers ground label suffiently
+False Positive (FP): 	object predicted, but doesn’t reach the IoU threshold or wrong class
+
+True Negative (TN): 	no object predicted, no object present
+False Negative (FN): 	no object predicted, but there was one!
+
+ Combine with confidence score to get Precision-Recall curve, and AP
+
+Metric: mAP (mean Average Precision)Evaluation of model performance
+74
+mAP helps in evaluating the performance of the object detection model across different levels of strictness in terms of overlap between predicted and ground truth bounding boxes.
+
+ Set the IoU to a specific threshold (e.g., 0.5).
+ Calculate the Average Precision (AP) for that IoU threshold.
+ Change the IoU threshold to another value (e.g., 0.75).
+ Calculate the AP for this new IoU threshold.
+ Repeat this process for several IoU thresholds (e.g., 0.5, 0.55, 0.6, …, 0.95).
+ Compute the mean of all AP values to get the mean Average Precision (mAP).
+
+Red: 		mAP for IoU > 0,9 (90%)
+Yellow: 	mAP for IoU > 0,1 (10%)
+
+Calculate AP for each of these curves, and take mean = mAP
+
+75
+
+76
+Benchmarks & 
+Data Formats
+
+		
+
+
+
+
+
+Important Benchmarks
+77
+PASCAL VOC (Visual Object Classes)
+ImageNet (only has classification labels, no bounding boxes nor segmentation masks)
+MS COCO (Microsoft Common Objects in Context)
+LVIS (Large Vocabulary Instance Segmentation)
+Benchmark Datasets
+78
+
+
+79
+
+
+80
+
+
+81
+
+82
+Computer Vision
+Segmentation
+
+		
+
+
+
+
+
+Common CV tasks
+83
+
+
+84
+
+Fully Convolutional Networks (FCNs) - 2015
+85
+Replaced the fully connected layers in a CNN, with (de-)convolutional layers (upsampling), to output spatial maps
+U-Net
+86
+Transfer/enable spatial information, by:
+Skip connections !
+	Transfer high-resolution features from the encoder to the 	decoder to retain fine spatial details
+Up-conv !
+	Restore the spatial resolution lost during downsampling
+Convolutions 		 		Up-conv
+87
+
+U-Net results
+88
+
+Upsampling (SegNet)
+89
+Some segmentation techniques, like SegNet, use max unpooling to reconstruct spatial information, instead of using skip connections
+Mask (faster) R-CNN
+90
+Extend the Faster R-CNN by adding a segmentation branch, to also generate binary mask prediction
+91
+
+ViT for segmentation
+Segment Anything Model (SAM)(from ‘Meta AI’)
+92
+SAM = ViT foundational model trained to generalize across segmentation tasks
+
+Image encoding is the heavy lifting, and done only once
+
+Prompts are processed quickly
+SA-1B datasethttps://segment-anything.com/dataset/index.html
+93
+
+94
+YOLOv11
+Trial run
+
+		
+
+
+
+
+
+SOTA Computer VisionYOLOv11 (Ultralytics)
+95
+Yolo v11: unified model / multi-task learning model!
+Try it out in code: Our own image
+96
+
+Yolov11Out of the box: Object Detection 
+97
+
+Settings: Confidence: 0,5 - IoU: 0,5
+98
+
+Out of the box: Segmentation 
+99
+
+Out of the box: Pose Model
+100
+
+Let’s go customData Labelling…
+101
+
+Let’s go customTraining…
+102
+
+Box regression, classification loss, focal loss (see retinanet)
+Quick result: custom training
+103
+Over to you
+104

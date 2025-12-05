@@ -1,0 +1,279 @@
+1
+Machine Learning
+Setting the Scene
+Lesson Goals
+2
+Students can understand the place of the Machine Learning course within the overall curriculum, and identify its connections and overlaps with the other courses
+
+Students can identify and explain the 5 Vs of Big Data
+
+Students can describe the evolution of data paradigms, from an application perspective, and from an analytical perspective
+
+Students can identify key ethical considerations in AI, and outline some of the requirements for trustworthy AI
+Machine Learning = (Big) Data Course!
+3
+
+Machine Learning for AnalyticsMachine Learning for Operational use (focus of this course)
+4
+5 V’s of Big Data – The Challenges!
+7
+
+Volume‘The Explosion of Data’
+8
+
+Velocityhttps://betfy.co.uk/internet-realtime/
+9
+
+VarietyUnstructured – Semi – Structured Data
+10
+
+Veracity‘Trustworthyness of Data’
+11
+
+ValueUsefulness or worth of data, what with Dark Data?
+12
+
+Recap
+13
+  The Big Picture(r)Evolution of Data Paradigms
+14
+Evolution: Powered by User Data
+15
+
+The story of data…From an application standpoint
+16
+Evolution of Application Architecture
+17
+Move from single-server monolith to microservices
+At the same time, move from on-premise to cloud
+Evolution of Application ArchitectureIn the beginning: Monolith, & Vertical Scaling
+18
+Evolution of Application Architecture
+19
+
+Evolution of Application ArchitectureAdd Load Balancer (traffic manager) – Horizontal scaling
+20
+21
+
+Evolution of Application Architecture
+Horizontal (Out) – Vertical (Up) Scaling
+22
+
+Evolution of Application ArchitectureFrom Monolith to Microservice (virtualization/containerization)
+23
+24
+
+Evolution of Application Architecture
+API’s
+API’s
+API’s
+API’s
+The story of data…From a database and analytics standpoint
+25
+Evolution of Data Analytics Architecture
+26
+Move from monolith to:
+Clustered databases for OLTP 
+From Data Warehouse  Data Lake  Data Lakehouse  Data Mesh 
+Move from self-managed on-prem to managed cloud solutions
+Evolution of Database ArchitectureFrom Monolith to Cluster
+27
+Evolution of Database Architecture
+28
+
+Strategies for Splitting-up the DB
+29
+  Sharding					Replication
+Distributed Systems: CAP theorem
+30
+
+CAP Theoremhttps://www.youtube.com/watch?v=k-Yaq8AHlFA&t=3s&ab_channel=DistributedSystemsCourse
+31
+
+Evolution of Database ArchitectureSupporting Analysis
+32
+Evolution of Database ArchitectureSupporting Analysis: Data Warehouse
+33
+
+Hadoop & Spark Eco-system
+34
+Focus is on semi- or structured data!
+35
+Evolution of Database ArchitectureSupporting Variety & Velocity: Data Lake
+36
+
+Evolution of Database ArchitectureSupporting Variety & Velocity
+Data Swamp – Data Governance
+37
+By emphasizing the data governance, and metadata layer in a datalake, we can enhance data accessibility and usability by also adding an API layer…
+
+Enter the Data Lakehouse!
+
+38
+
+Microsoft Fabric = Data Lakehouse
+39
+
+And, finally, into a Data Mesh…?Decentralize data ownership into domains
+40
+
+41
+
+
+Data Engineering - Cloud AI - Machine Learning - Business Intelligence
+42
+
+
+43
+
+44
+Machine Learning
+Ethics & Trustworthy AI
+Why Ethics?
+45
+
+EU & Ethical AI
+46
+
+
+47
+
+
+Human-in-, on-, out-the-loop
+48
+
+Robotics / Drones & AI
+49
+
+
+50
+
+
+Confusion Matrix
+51
+Accuracy doesn’t tell the whole story! Get a more nuanced view with a confusion matrix
+Adversarial Attack (breaking the CNN)
+52
+
+
+53
+
+
+StyleGAN2 (www.thispersondoesnotexist.com)
+54
+
+Fake NewsDeep Fakes
+55
+
+Generative Adversarial Networks(GANs)
+56
+
+GANs: Why Discriminator Network?‘Conceptual Loss vs MSE Loss’
+57
+
+Same MSE loss, different perceptual ‘quality’:
+Surveillance capitalism
+58
+
+
+59
+
+Who sells what data?
+
+60
+
+
+Explanainable AI (XAI)
+61
+
+XAI – Computer Vision‘Activation (from CNN) Maps’
+62
+
+XAI – Natural Language Processing‘Attention (from Transformer) Maps’
+63
+
+
+64
+
+
+Deep Learning = Data Driven
+65
+
+Bias (in Dutch: vooroordeel, vooringenomenheid)
+66
+
+Balanced dataset to learn from?
+67
+
+Gender Bias
+68
+
+Racial & Gender Bias
+69
+
+Racial Twitter Conversational Bot
+70
+
+Fairness? Non-discrimination?
+71
+
+
+72
+
+
+China: ‘Social Score’ (Skynet)?
+73
+
+Filter Bubbles(Automatic Recommendations)
+74
+
+Green AI versus Red AI(Efficiency versus Accuracy)
+75
+
+
+76
+
+
+77
+
+Massive Compute / Energy
+78
+
+Amount of connections / synapsesAnimals versus AI models
+79
+
+Artificial Brain versus Human Brain
+80
+
+‘Limited’ connections
+Electrical connections
+
+All cells are alike in structure, so can exchange information at very high speed, and we can apply transfer learning / pre-trained networks
+100x more synapses
+Chemical connections
+
+Exchange of info between networks is slow: humans need words / sentences
+‘Smaller Models’: Model Distillation
+81
+
+Mixture of Experts (MoE) LLMs
+82
+
+
+83
+
+
+Autonomous vehicle needs to make decisions…
+84
+				https://www.moralmachine.net/
+
+85
+
+Amazon ‘Just Walk Out’
+86
+
+AI in Healthcare
+87
+
+Over to you
+88
