@@ -48,6 +48,15 @@ CREATE TABLE IF NOT EXISTS chats (
 """)
 conn.commit()
 
+# ----------------------------------------------------
+# HEADER
+# ----------------------------------------------------
+st.set_page_config(
+    page_title="ML Assistant",
+    page_icon="🤖",
+    layout="wide"
+)
+
 
 # ----------------------------------------------------
 # DB HELPERS (USER-SCOPED)
