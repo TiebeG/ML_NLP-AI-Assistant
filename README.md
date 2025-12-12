@@ -15,7 +15,6 @@ This project was developed to meet the following core objectives:
 - Short-term conversational context  
 - Useful educational outputs (explanations, summaries, quizzes)  
 
----
 
 ## ⭐ Extra Features / Extra Credit
 
